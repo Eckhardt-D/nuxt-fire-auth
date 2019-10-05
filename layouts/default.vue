@@ -1,13 +1,11 @@
 <template>
   <section class="container">
-    <nuxt/>
+    <nuxt />
   </section>
 </template>
 
 <script>
-export default {};
+export default {
+  name: "default"
+};
 </script>
-
-<style>
-@import url(https://bootswatch.com/4/darkly/bootstrap.min.css);
-</style>
