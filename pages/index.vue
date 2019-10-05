@@ -1,7 +1,7 @@
 <template>
   <div class="col-lg-6 mx-auto my-2">
     <h1>Login to your account</h1>
-    <form @submit.prevent>
+    <form @submit.prevent="login" @submit.enter="login">
       <div class="form-group">
         <input
           v-model="account.email"
@@ -9,7 +9,7 @@
           type="email"
           class="form-control"
           placeholder="E-mail address"
-        >
+        />
       </div>
 
       <div class="form-group">
@@ -19,11 +19,11 @@
           type="password"
           class="form-control"
           placeholder="Password"
-        >
+        />
       </div>
 
       <div class="form-group">
-        <input @click="login" type="submit" class="btn btn-primary">
+        <input @click="login" type="submit" class="btn btn-primary" />
       </div>
       <div v-if="isError" class="alert alert-danger">
         <p class="mb-0">{{ errMsg }}</p>
@@ -33,7 +33,6 @@
 </template>
 
 <script>
-import { setTimeout } from "timers";
 export default {
   data: () => ({
     account: {
@@ -44,18 +43,22 @@ export default {
     errMsg: ""
   }),
   methods: {
-    login() {
+    login(e) {
+      e.preventDefault();
       // TODO: add parsing of data.
-      this.$store.dispatch("users/login", this.account).catch(error => {
-        this.isError = true;
-        this.errMsg = error.code;
+      this.$store
+        .dispatch("users/login", this.account)
+        .then(() => {
+          this.$router.push("/admin");
+        })
+        .catch(error => {
+          this.isError = true;
+          this.errMsg = error.code;
 
-        setTimeout(() => {
-          this.isError = false;
-        }, 5000);
-      });
-
-      this.$router.push("/admin");
+          setTimeout(() => {
+            this.isError = false;
+          }, 5000);
+        });
     }
   }
 };
