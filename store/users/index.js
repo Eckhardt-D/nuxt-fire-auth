@@ -25,6 +25,7 @@ export const actions = {
       Cookie.set("access_token", token);
 
       // Set the user locally
+      localStorage.setItem("cached_user", JSON.stringify({ email, uid }));
       commit("SET_USER", { email, uid });
     } catch (error) {
       throw error;

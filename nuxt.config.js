@@ -30,14 +30,12 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: "~/plugins/checkIfUser.js", mode: "client" }],
 
   /**
    * Router settings
    */
-  router: {
-    middleware: ["authenticated"]
-  },
+  router: {},
 
   /*
    ** Nuxt.js modules

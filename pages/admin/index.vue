@@ -13,6 +13,7 @@ export default {
   methods: {
     async logout() {
       await auth.signOut();
+      await localStorage.removeItem("cached_user");
       await Cookie.remove("access_token");
 
       location.href = "/";

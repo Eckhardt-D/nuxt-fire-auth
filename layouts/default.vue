@@ -1,6 +1,8 @@
 <template>
   <section class="container">
-    <nuxt />
+    <client-only>
+      <nuxt />
+    </client-only>
   </section>
 </template>
 
