@@ -1,4 +1,8 @@
-const url = "http://localhost:5001/nuxtfire-temp/us-central1/auth";
+/*
+  NB! Remember to change the url when hosting
+  https://us-central1-<YOUR projectId>.cloudfunctions.net/auth
+*/
+const url = "https://us-central1-nuxtfire-temp.cloudfunctions.net/auth";
 
 export default async function({ app }) {
   const { store } = app.context;
@@ -15,6 +19,7 @@ export default async function({ app }) {
     if (!user && to.path.match(blockedRoute)) {
       requestUserWithCookie().then(({ uid, email }) => {
         if (!uid || !email) next("/");
+        localStorage.setItem("cached_user", JSON.stringify({ uid, email }));
         store.commit("users/SET_USER", { uid, email });
         return next();
       });
@@ -23,16 +28,6 @@ export default async function({ app }) {
 }
 
 async function requestUserWithCookie() {
-  const response = await fetch(
-    /*
-
-      NB! Remember to change the url when hosting
-      https://us-central1-<YOUR-PROJECT-ID>.cloudfunctions.net/auth
-
-    */
-    url,
-    { credentials: "include" }
-  );
-
+  const response = await fetch(url, { credentials: "include" });
   return await response.json();
 }
